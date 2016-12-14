@@ -1,9 +1,9 @@
 ## VLC Android版编译笔记
 VLC是开源的跨平台视频播放器，但是由于依赖众多、开发语言是C语言，上手并不容易。本文主要记录了VLC Android版的整个编译过程，以备后用。
 
-在开始学习以及编译VLC之前，有必要对VLC的整体框架建立基本的认识。我们通常说的VLC，其实包括了多个部分，包括：libVLCCore、modules以及vlc应用程序等，详细的可以参考这篇博文[The architecture of VLC media framework]。
+在开始学习以及编译VLC之前，有必要对VLC的整体框架建立基本的认识。我们通常说的VLC，其实包括了多个部分，包括：libVLCCore、modules以及vlc应用程序等，详细的可以参考这篇博文[The architecture of VLC media framework](https://web.archive.org/web/20141204234622/http://www.enjoythearchitecture.com/vlc-architecture.html)。
 
-好了，废话不多说了，回到正题。VLC的Android编译有对应的[官方文档]，但是不幸的是，直接按照官方文档是编译不过的。下面说说具体的编译步骤吧。
+好了，废话不多说了，回到正题。VLC的Android编译有对应的[官方文档](https://wiki.videolan.org/AndroidCompile/)，但是不幸的是，直接按照官方文档是编译不过的。下面说说具体的编译步骤吧。
 
 ### 准备Ubuntu编译环境
 理论上Mac OSX也是可以编译通过的，不过为了省事避免遇到各种奇奇怪怪的问题，还是先基于官方推荐的Ubuntu系统吧。编译文档并没有对Ubuntu系统版本作特别的说明，本人使用的版本是16.04LTS，估计14.04LTS应该也是OK的。
@@ -16,7 +16,7 @@ VLC是开源的跨平台视频播放器，但是由于依赖众多、开发语�
 ### 安装Protobuf3依赖库
 VLC依赖protobuf，当前的最新代码必须安装protobuf3，否则编译的时候会报”Unrecognized syntax identifier "proto3””的错误。
 
-首先需要下载[Protobuf源码]。下载完成后解压zip文件：
+首先需要下载[Protobuf源码](https://github.com/google/protobuf/releases/download/v3.0.0/protobuf-cpp-3.0.0.zip)。下载完成后解压zip文件：
 
 	$ unzip protobuf-cpp-3.0.0.zip
 
@@ -33,14 +33,14 @@ VLC依赖protobuf，当前的最新代码必须安装protobuf3，否则编译的
 
 #### 安装Android编译环境
 ##### 下载安装SDK、NDK
-下载安装Android SDK，只需要下载SDK [command line tools]，不必下载包含Android Studio的完整版本。下载完成后执行以下命令完成解压以及SDK的安装：
+下载安装Android SDK，只需要下载SDK [command line tools](https://dl.google.com/android/repository/tools_r25.2.3-linux.zip)，不必下载包含Android Studio的完整版本。下载完成后执行以下命令完成解压以及SDK的安装：
 
 	$ unzip tools_r25.2.3-linux.zip
 	$ cd tools_r25.2.3-linux
 	$ android list sdk —all
 	$ android update sdk -u --all --filter 1,2,3,5,… #数字对应需要安装的package
 
-下载安装[Android NDK]，注意VLC当前的最新代码需要安装r13以上版本。下载完成后解压到适当的目录，这里不再赘述。
+下载安装[Android NDK](https://dl.google.com/android/repository/android-ndk-r13b-linux-x86_64.zip)，注意VLC当前的最新代码需要安装r13以上版本。下载完成后解压到适当的目录，这里不再赘述。
 
 ##### 配置环境变量
 虽说bshell可以通过设置~/.bash_profile来设置持久化的环境变量，但是我设置过后依然无法被vlc的编译脚本识别，不知何故。后来只能曲线救国，通过设置/etc/profile后才肯好好工作。具体如下：
